@@ -20,6 +20,7 @@
         <!--<framework custom="true" src="openssl"/>-->
     </platform>
     <platform name="android">
+
     <config-file parent="/*" target="res/xml/config.xml">
     <feature name="gwsdkGetBoundDevice">
     <param name="android-package" value="com.heytz.gwsdkGetBoundDevice.gwsdkGetBoundDevice"/>
