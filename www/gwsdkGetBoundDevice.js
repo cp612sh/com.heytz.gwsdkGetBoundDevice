@@ -4,5 +4,5 @@
 var exec = require('cordova/exec');
 
 exports.getBoundDevicesWithUid = function (appid, token, specialProductKeys, uid, success, error) {
-    exec(success, error, "gwsdkGetBoundDevice", "getBoundDevicesWithUid", [appid, token, specialProductKeys, uid]);
+    exec(success, error, "gwsdkGetBoundDevice", "start", [appid, token, specialProductKeys, uid]);
 };
