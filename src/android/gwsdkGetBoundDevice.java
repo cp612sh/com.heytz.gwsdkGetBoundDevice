@@ -29,21 +29,24 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
     private String _token;
 
 
+
+
+
     private XPGWifiSDKListener wifiSDKListener = new XPGWifiSDKListener() {
 
         private JSONObject toJSONObjfrom(XPGWifiDevice device) {
             JSONObject json = new JSONObject();
             try {
                 json.put("did", device.getDid());
-                json.put("ipAddress", device.getIPAddress());
+//                json.put("ipAddress", device.getIPAddress());
                 json.put("macAddress", device.getMacAddress());
-                json.put("passcode", device.getPasscode());
-                json.put("productKey", device.getProductKey());
-                json.put("productName", device.getProductName());
-                json.put("remark", device.getRemark());
+//                json.put("passcode", device.getPasscode());
+//                json.put("productKey", device.getProductKey());
+//                json.put("productName", device.getProductName());
+//                json.put("remark", device.getRemark());
                 //json.put("ui", device.getUI());
-                json.put("isConnected", device.isConnected());
-                json.put("isDisabled", device.isDisabled());
+//                json.put("isConnected", device.isConnected());
+//                json.put("isDisabled", device.isDisabled());
                 json.put("isLAN", device.isLAN());
                 json.put("isOnline", device.isOnline());
             } catch (JSONException e) {
@@ -68,8 +71,9 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
                     for (int i = 0; i < devicesList.size(); i++) {
                         cdvResult.put(toJSONObjfrom(devicesList.get(i)));
                     }
-                    airLinkCallbackContext.success(cdvResult);
                     _devicesList = null;
+                    airLinkCallbackContext.success(cdvResult);
+
                 } else
                     _devicesList = devicesList;
             } else {

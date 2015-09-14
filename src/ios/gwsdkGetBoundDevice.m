@@ -22,6 +22,19 @@
 -(void)pluginInitialize{
 }
 
+-(void)initSdkWithAppId:(CDVInvokedUrlCommand *) command{
+    if(!_appId){
+        _appId = command.arguments[0];
+        [XPGWifiSDK startWithAppID:_appId];
+    }
+}
+
+-(void) setDelegate{
+    if(!([XPGWifiSDK sharedInstance].delegate)){
+        [XPGWifiSDK sharedInstance].delegate = self;
+    }
+}
+
 /**
  * @brief 回调接口，返回发现设备的结果
  * @param deviceList：为 XPGWifiDevice* 的集合
@@ -30,8 +43,8 @@
  */
 -(void)start:(CDVInvokedUrlCommand *)command{
 
-    [XPGWifiSDK startWithAppID:command.arguments[0]];
-    [XPGWifiSDK sharedInstance].delegate = self;
+    [self initSdkWithAppId:command];
+    [self setDelegate];
 
     self.commandHolder = command;
     [[XPGWifiSDK sharedInstance] getBoundDevicesWithUid:command.arguments[3] token:command.arguments[1] specialProductKeys:command.arguments[2], nil];
@@ -50,15 +63,15 @@
             for (XPGWifiDevice *device in deviceList){
                 NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
                                    device.did, @"did",
-                                   device.ipAddress, @"ipAddress",
+                                  // device.ipAddress, @"ipAddress",
                                    device.macAddress, @"macAddress",
-                                   device.passcode, @"passcode",
-                                   device.productKey, @"productKey",
-                                   device.productName, @"productName",
-                                   device.remark, @"remark",
+                                  // device.passcode, @"passcode",
+                                  // device.productKey, @"productKey",
+                                  // device.productName, @"productName",
+                                  // device.remark, @"remark",
                                    //device.ui, @"ui",
-                                   device.isConnected, @"isConnected",
-                                   device.isDisabled, @"isDisabled",
+                                 //  device.isConnected, @"isConnected",
+                                 //  device.isDisabled, @"isDisabled",
                                    device.isLAN, @"isLAN",
                                    device.isOnline, @"isOnline",
                                    @"",@"error",
@@ -74,8 +87,16 @@
         }
         
     }else{
-        [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:self.commandHolder.callbackId];
+    //    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:self.commandHolder.callbackId];
     }
+
+
+}
+
+- (void)dealloc
+{
+    NSLog(@"//====dealloc...====");
+    [XPGWifiSDK sharedInstance].delegate = nil;
 }
 
 - (void)dispose{

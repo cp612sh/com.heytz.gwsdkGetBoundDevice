@@ -12,25 +12,13 @@
             </feature>
         </config-file>
         <source-file src="src/ios/gwsdkGetBoundDevice.m"/>
-        <!--<source-file framework="true" src="libcrypto.a"/>-->
-        <!--<source-file framework="true" src="libssl.a"/>-->
-        <!--<framework src="SystemConfiguration.framework"/>-->
-        <!--<framework src="libc++.dylib"/>-->
-        <!--<framework custom="true" src="XPGWifiSDK.framework"/>-->
-        <!--<framework custom="true" src="openssl"/>-->
     </platform>
     <platform name="android">
-
-    <config-file parent="/*" target="res/xml/config.xml">
-    <feature name="gwsdkGetBoundDevice">
-    <param name="android-package" value="com.heytz.gwsdkGetBoundDevice.gwsdkGetBoundDevice"/>
-    </feature>
-    </config-file>
-    <!--<config-file parent="/*" target="AndroidManifest.xml"></config-file>-->
-    <source-file src="src/android/gwsdkGetBoundDevice.java" target-dir="src/com/heytz/gwsdkGetBoundDevice/"/>
-    <!--<source-file src="libs/json-lib-2.4-jdk15.jar" target-dir="libs"/>-->
-    <!--<source-file src="libs/XPGWiFiSDK.jar" target-dir="libs"/>-->
-
-    <!--<source-file src="libs/lib.jar" target-dir="libs"/>-->
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="gwsdkGetBoundDevice">
+                <param name="android-package" value="com.heytz.gwsdkGetBoundDevice.gwsdkGetBoundDevice"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/gwsdkGetBoundDevice.java" target-dir="src/com/heytz/gwsdkGetBoundDevice/"/>
     </platform>
 </plugin>
