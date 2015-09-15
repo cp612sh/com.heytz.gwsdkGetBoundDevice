@@ -5,6 +5,7 @@
 
 @interface gwsdkGetBoundDevice : CDVPlugin<XPGWifiDeviceDelegate,XPGWifiSDKDelegate> {
     // Member variables go here.
+    NSString * _appId;
 }
 
 -(void)start:(CDVInvokedUrlCommand *)command;
