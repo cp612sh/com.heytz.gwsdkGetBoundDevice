@@ -65,18 +65,19 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
         @Override
         public void didDiscovered(int result, List<XPGWifiDevice> devicesList) {
             if (result == XPGWifiErrorCode.XPGWifiError_NONE && devicesList.size() > 0) {
-                if (hasDone(devicesList)) {
+                //if (hasDone(devicesList)) {
                     JSONArray cdvResult = new JSONArray();
 
                     for (int i = 0; i < devicesList.size(); i++) {
                         cdvResult.put(toJSONObjfrom(devicesList.get(i)));
                     }
-                    _devicesList = null;
+                    //_devicesList = null;
                     airLinkCallbackContext.success(cdvResult);
 
-                } else
-                    _devicesList = devicesList;
-            } else {
+               // } else
+               //     _devicesList = devicesList;
+           // } 
+           else {
                 //获取失败或未发现设备，重试
             }
         }
