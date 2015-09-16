@@ -44,10 +44,10 @@
  * @see 触发函数：[XPGWifiSDK getBoundDevicesWithUid:token:specialProductKeys:]
  */
 -(void)start:(CDVInvokedUrlCommand *)command{
-
+    
     [self initSdkWithAppId:command];
     [self setDelegate];
-
+    
     self.commandHolder = command;
     
     isDiscoverLock = true;
@@ -61,34 +61,44 @@
 
 - (void)XPGWifiSDK:(XPGWifiSDK *)wifiSDK didDiscovered:(NSArray *)deviceList result:(int)result{
     //if(isDiscoverLock){
+    if ([self hasDone:deviceList]) {
         if (result == 0 && deviceList.count > 0) {
             NSMutableArray *jsonArray = [[NSMutableArray alloc] init];
             for (XPGWifiDevice *device in deviceList){
-                NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   device.did, @"did",
-                                  // device.ipAddress, @"ipAddress",
-                                   device.macAddress, @"macAddress",
-                                  // device.passcode, @"passcode",
-                                  // device.productKey, @"productKey",
-                                  // device.productName, @"productName",
-                                  // device.remark, @"remark",
-                                   //device.ui, @"ui",
-                                 //  device.isConnected, @"isConnected",
-                                 //  device.isDisabled, @"isDisabled",
-                                   device.isLAN, @"isLAN",
-                                   device.isOnline, @"isOnline",
-                                   @"",@"error",
-                                   nil];
+                NSString *did=device.did;
+                NSString * mac = device.macAddress;
+                NSString * isOnline =  device.isOnline ? @"1" :@"0";
+                NSMutableDictionary * d = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           did, @"did",
+                                           // device.ipAddress, @"ipAddress",
+                                           mac, @"macAddress",
+                                           // device.passcode, @"passcode",
+                                           // device.productKey, @"productKey",
+                                           // device.productName, @"productName",
+                                           // device.remark, @"remark",
+                                           //device.ui, @"ui",
+                                           //  device.isConnected, @"isConnected",
+                                           //  device.isDisabled, @"isDisabled",
+                                           //device.isLAN, @"isLAN",
+                                           isOnline, @"isOnline",
+                                           @"",@"error",
+                                           nil];
                 [jsonArray addObject:d];
+                
             }
+             _deviceList = nil;
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:jsonArray];
-            [pluginResult setKeepCallbackAsBool:true];
+            //[pluginResult setKeepCallbackAsBool:true];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHolder.callbackId];
-            //isDiscoverLock = false;
+           
+            
         }else{
             //[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:self.commandHolder.callbackId];
         }
-    //}
+    }
+    else{
+        _deviceList = deviceList;
+    }
 }
 
 - (void)dealloc
