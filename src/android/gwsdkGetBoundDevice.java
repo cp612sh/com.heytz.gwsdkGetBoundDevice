@@ -29,24 +29,13 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
     private String _token;
 
 
-
-
-
     private XPGWifiSDKListener wifiSDKListener = new XPGWifiSDKListener() {
 
         private JSONObject toJSONObjfrom(XPGWifiDevice device) {
             JSONObject json = new JSONObject();
             try {
                 json.put("did", device.getDid());
-//                json.put("ipAddress", device.getIPAddress());
                 json.put("macAddress", device.getMacAddress());
-//                json.put("passcode", device.getPasscode());
-//                json.put("productKey", device.getProductKey());
-//                json.put("productName", device.getProductName());
-//                json.put("remark", device.getRemark());
-                //json.put("ui", device.getUI());
-//                json.put("isConnected", device.isConnected());
-//                json.put("isDisabled", device.isDisabled());
                 json.put("isLAN", device.isLAN());
                 json.put("isOnline", device.isOnline());
             } catch (JSONException e) {
@@ -65,19 +54,19 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
         @Override
         public void didDiscovered(int result, List<XPGWifiDevice> devicesList) {
             if (result == XPGWifiErrorCode.XPGWifiError_NONE && devicesList.size() > 0) {
-                //if (hasDone(devicesList)) {
+                if (hasDone(devicesList)) {
                     JSONArray cdvResult = new JSONArray();
 
                     for (int i = 0; i < devicesList.size(); i++) {
                         cdvResult.put(toJSONObjfrom(devicesList.get(i)));
                     }
-                    //_devicesList = null;
+                    _devicesList = null;
                     airLinkCallbackContext.success(cdvResult);
 
-               // } else
-               //     _devicesList = devicesList;
-           // } 
-           else {
+                } else {
+                    _devicesList = devicesList;
+                }
+            } else {
                 //获取失败或未发现设备，重试
             }
         }
