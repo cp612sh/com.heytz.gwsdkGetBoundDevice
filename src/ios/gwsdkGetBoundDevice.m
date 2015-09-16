@@ -6,6 +6,7 @@
 @interface gwsdkGetBoundDevice : CDVPlugin<XPGWifiDeviceDelegate,XPGWifiSDKDelegate> {
     // Member variables go here.
     NSString * _appId;
+    BOOL isDiscoverLock;
 }
 
 -(void)start:(CDVInvokedUrlCommand *)command;
@@ -48,6 +49,8 @@
     [self setDelegate];
 
     self.commandHolder = command;
+    
+    isDiscoverLock = true;
     [[XPGWifiSDK sharedInstance] getBoundDevicesWithUid:command.arguments[3] token:command.arguments[1] specialProductKeys:command.arguments[2], nil];
 }
 
@@ -57,9 +60,8 @@
 }
 
 - (void)XPGWifiSDK:(XPGWifiSDK *)wifiSDK didDiscovered:(NSArray *)deviceList result:(int)result{
-    if (result == 0 && deviceList.count > 0) {
-        
-        if([self hasDone:deviceList]){
+    //if(isDiscoverLock){
+        if (result == 0 && deviceList.count > 0) {
             NSMutableArray *jsonArray = [[NSMutableArray alloc] init];
             for (XPGWifiDevice *device in deviceList){
                 NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -80,18 +82,13 @@
                 [jsonArray addObject:d];
             }
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:jsonArray];
-            //[pluginResult setKeepCallbackAsBool:true];
+            [pluginResult setKeepCallbackAsBool:true];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHolder.callbackId];
-            _deviceList = nil;
+            //isDiscoverLock = false;
         }else{
-            _deviceList = deviceList;
+            //[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:self.commandHolder.callbackId];
         }
-        
-    }else{
-    //    [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:self.commandHolder.callbackId];
-    }
-
-
+    //}
 }
 
 - (void)dealloc
