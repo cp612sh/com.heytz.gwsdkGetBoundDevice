@@ -71,6 +71,7 @@
                 NSString * isLAN = device.isLAN ? @"1" : @"0";
                 NSString * isDisabled = device.isDisabled ? @"1" : @"0";
                 NSString * isConnected = device.isConnected ? @"1" : @"0";
+                NSString * isBind = [device isBind: self.commandHolder.arguments[3]] ? @"1" : @"0";
                 NSMutableDictionary * d = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            did, @"did",
                                            // device.ipAddress, @"ipAddress",
@@ -84,16 +85,14 @@
                                            isDisabled, @"isDisabled",
                                            isLAN, @"isLAN",
                                            isOnline, @"isOnline",
+                                           isBind, @"isBind",
                                            nil];
                 [jsonArray addObject:d];
-                
             }
              _deviceList = nil;
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:jsonArray];
             //[pluginResult setKeepCallbackAsBool:true];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHolder.callbackId];
-           
-            
         }else{
             //[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR] callbackId:self.commandHolder.callbackId];
         }
