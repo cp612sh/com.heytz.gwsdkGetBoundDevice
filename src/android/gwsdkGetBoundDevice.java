@@ -40,7 +40,7 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
                 json.put("isOnline", device.isOnline() ? "1" : "0");
                 json.put("isConnected", device.isConnected() ? "1" : "0");
                 json.put("isDisabled", device.isDisabled() ? "1" : "0");
-
+                json.put("isBind", device.isBind(_uid) ? "1" : "0");
             } catch (JSONException e) {
 
             }
