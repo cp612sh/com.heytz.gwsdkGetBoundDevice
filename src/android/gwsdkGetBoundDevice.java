@@ -36,8 +36,11 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
             try {
                 json.put("did", device.getDid());
                 json.put("macAddress", device.getMacAddress());
-                json.put("isLAN", device.isLAN());
-                json.put("isOnline", device.isOnline());
+                json.put("isLAN", device.isLAN() ? "1": "0");
+                json.put("isOnline", device.isOnline() ? "1" : "0");
+                json.put("isConnected", device.isConnected() ? "1" : "0");
+                json.put("isDisabled", device.isDisabled() ? "1" : "0");
+
             } catch (JSONException e) {
 
             }

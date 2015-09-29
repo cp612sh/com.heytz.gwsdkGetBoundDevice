@@ -65,9 +65,12 @@
         if (result == 0 && deviceList.count > 0) {
             NSMutableArray *jsonArray = [[NSMutableArray alloc] init];
             for (XPGWifiDevice *device in deviceList){
-                NSString *did=device.did;
+                NSString * did=device.did;
                 NSString * mac = device.macAddress;
                 NSString * isOnline =  device.isOnline ? @"1" :@"0";
+                NSString * isLAN = device.isLAN ? @"1" : @"0";
+                NSString * isDisabled = device.isDisabled ? @"1" : @"0";
+                NSString * isConnected = device.isConnected ? @"1" : @"0";
                 NSMutableDictionary * d = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                            did, @"did",
                                            // device.ipAddress, @"ipAddress",
@@ -77,11 +80,10 @@
                                            // device.productName, @"productName",
                                            // device.remark, @"remark",
                                            //device.ui, @"ui",
-                                           //  device.isConnected, @"isConnected",
-                                           //  device.isDisabled, @"isDisabled",
-                                           //device.isLAN, @"isLAN",
+                                           isConnected, @"isConnected",
+                                           isDisabled, @"isDisabled",
+                                           isLAN, @"isLAN",
                                            isOnline, @"isOnline",
-                                           @"",@"error",
                                            nil];
                 [jsonArray addObject:d];
                 
