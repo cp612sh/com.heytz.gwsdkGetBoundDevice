@@ -111,6 +111,5 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
 
     private void dealloc() {
         XPGWifiSDK.sharedInstance().setListener((XPGWifiSDKListener) null);
-        XPGWifiSDK = null;
     }
 }
