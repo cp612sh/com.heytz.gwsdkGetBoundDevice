@@ -36,7 +36,7 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
             try {
                 json.put("did", device.getDid());
                 json.put("macAddress", device.getMacAddress());
-                json.put("isLAN", device.isLAN() ? "1": "0");
+                json.put("isLAN", device.isLAN() ? "1" : "0");
                 json.put("isOnline", device.isOnline() ? "1" : "0");
                 json.put("isConnected", device.isConnected() ? "1" : "0");
                 json.put("isDisabled", device.isDisabled() ? "1" : "0");
@@ -95,6 +95,10 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
             this.start();
             return true;
         }
+        if(action.equals("dealloc")){
+            this.dealloc();
+            return true;
+        }
         return false;
     }
 
@@ -103,5 +107,10 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
         // set listener
         XPGWifiSDK.sharedInstance().setListener(wifiSDKListener);
         XPGWifiSDK.sharedInstance().getBoundDevices(_uid, _token, _productKey);
+    }
+
+    private void dealloc() {
+        XPGWifiSDK.sharedInstance().setListener((XPGWifiSDKListener) null);
+        XPGWifiSDK = null;
     }
 }
