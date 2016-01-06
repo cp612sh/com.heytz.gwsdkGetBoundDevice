@@ -87,6 +87,11 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("start")) {
             this._appID = args.getString(0);
+            if (_appID == null) {
+            XPGWifiSDK.sharedInstance().startWithAppID(context, _appID);
+            // set listener
+            XPGWifiSDK.sharedInstance().setListener(wifiSDKListener);
+            }
             this._productKey = args.getString(2);
             this._uid = args.getString(3);
             this._token = args.getString(1);
@@ -103,9 +108,6 @@ public class gwsdkGetBoundDevice extends CordovaPlugin {
     }
 
     private void start() {
-        XPGWifiSDK.sharedInstance().startWithAppID(context, _appID);
-        // set listener
-        XPGWifiSDK.sharedInstance().setListener(wifiSDKListener);
         XPGWifiSDK.sharedInstance().getBoundDevices(_uid, _token, _productKey);
     }
 
